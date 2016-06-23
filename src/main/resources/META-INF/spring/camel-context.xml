@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+     Copyright 2005-2015 Red Hat, Inc.
+
+     Red Hat licenses this file to you under the Apache License, version
+     2.0 (the "License"); you may not use this file except in compliance
+     with the License.  You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+     implied.  See the License for the specific language governing
+     permissions and limitations under the License.
+
+-->
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <context:property-placeholder system-properties-mode="ENVIRONMENT" />
+  <context:component-scan base-package="org.swinchester"/>
+
+  <bean id="ldapRB" class="org.swinchester.ldapapi.routebuilder.LdapAPIRouteBuilder" />
+  
+  <bean id="searchProcessor" class="org.swinchester.ldapapi.processor.SearchProcessor" />
+  <bean id="addProcessor" class="org.swinchester.ldapapi.processor.AddProcessor"/>
+  <bean id="deleteProcessor" class="org.swinchester.ldapapi.processor.DeleteProcessor"/>
+
+  <camelContext xmlns="http://camel.apache.org/schema/spring">
+    <routeBuilder ref="ldapRB" />
+
+    <restConfiguration component="jetty" host="0.0.0.0" port="9090" bindingMode="json">
+      <!--<dataFormatProperty key="json.in.disableFeatures" value="FAIL_ON_UNKNOWN_PROPERTIES,ADJUST_DATES_TO_CONTEXT_TIME_ZONE"/>-->
+      <!--<dataFormatProperty key="json.in.enableFeatures" value="FAIL_ON_NUMBERS_FOR_ENUMS,USE_BIG_DECIMAL_FOR_FLOATS"/>-->
+    </restConfiguration>
+
+  </camelContext>
+
+</beans>
