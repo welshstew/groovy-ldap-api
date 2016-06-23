@@ -1,0 +1,53 @@
+{
+  "apiVersion": "v1",
+  "kind": "BuildConfig",
+  "metadata": {
+    "annotations": {},
+    "labels": {
+      "app": "il3-ldap",
+      "group": "il3",
+      "project": "il3-ldap",
+      "version": "1.0.0-SNAPSHOT"
+    },
+    "name": "il3-ldap"
+  },
+  "spec": {
+    "output": {
+      "to": {
+        "kind": "ImageStreamTag",
+        "name": "il3-ldap:${IS_TAG}"
+      }
+    },
+    "source": {
+      "git": {
+        "uri": "http://fobuild:London123@tfs.bpweb.bp.com:8080/tfs/TradingFunctions/IntegrationServices/_git/il3-ldap"
+      },
+      "images": [],
+      "secrets": [],
+      "type": "Git"
+    },
+    "strategy": {
+      "dockerStrategy": {
+        "env": [],
+        "from": {
+          "kind": "ImageStreamTag",
+          "name": "rhel7:7.2",
+          "namespace": "openshift"
+        }
+      },
+      "type": "Docker"
+    },
+    "triggers": [
+      {
+        "imageChange": {
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "rhel7:7.2",
+            "namespace": "openshift"
+          }
+        },
+        "type": "ImageChange"
+      }
+    ]
+  }
+}
