@@ -17,6 +17,9 @@ public class DeploymentConfigKubernetesModelProcessor {
 
     public void on(DeploymentConfigBuilder builder) {
         builder.withSpec(builder.getSpec())
+                .withNewMetadata()
+                    .withName(ConfigParameters.APP_NAME + "-dc")
+                .endMetadata()
                 .editSpec()
                     .withReplicas(1)
                     .withSelector(getSelectors())

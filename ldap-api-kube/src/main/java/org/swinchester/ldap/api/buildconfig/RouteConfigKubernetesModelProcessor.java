@@ -10,6 +10,9 @@ public class RouteConfigKubernetesModelProcessor {
 
     public void on(TemplateBuilder builder) {
         builder.addNewRouteObject()
+                .withNewMetadata()
+                    .withName("groovy-ldap-api")
+                .endMetadata()
                 .withNewSpec()
                 .withHost("${ROUTE_HOST_NAME}")
                 .withNewTo()

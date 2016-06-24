@@ -13,16 +13,39 @@
   },
   "objects" : [ {
     "apiVersion" : "v1",
-    "kind" : "ImageStream",
+    "kind" : "Service",
     "metadata" : {
       "annotations" : { },
       "labels" : {
-        "project" : "ldap-api-kube",
-        "provider" : "fabric8",
+        "project" : "ldap-api",
+        "provider" : "swinchester",
         "version" : "1.0-SNAPSHOT",
-        "group" : "org.swinchester"
+        "group" : "ldap"
       },
-      "name" : "ldap-api-kube"
+      "name" : "ldap-api-service"
+    },
+    "spec" : {
+      "deprecatedPublicIPs" : [ ],
+      "externalIPs" : [ ],
+      "ports" : [ {
+        "port" : 9090,
+        "protocol" : "TCP",
+        "targetPort" : 9090
+      } ],
+      "selector" : {
+        "project" : "ldap-api",
+        "provider" : "swinchester",
+        "group" : "ldap"
+      },
+      "type" : "LoadBalancer"
+    }
+  }, {
+    "apiVersion" : "v1",
+    "kind" : "ImageStream",
+    "metadata" : {
+      "annotations" : { },
+      "labels" : { },
+      "name" : "ldap-api"
     },
     "spec" : {
       "dockerImageRepository" : "${REGISTRY}/${IS_PULL_NAMESPACE}/ldap-api",
@@ -48,7 +71,7 @@
         "version" : "1.0.0-SNAPSHOT",
         "group" : "ldap"
       },
-      "name" : "ldap-api"
+      "name" : "ldap-api-bc"
     },
     "spec" : {
       "output" : {
@@ -68,7 +91,13 @@
       },
       "strategy" : {
         "sourceStrategy" : {
-          "env" : [ ],
+          "env" : [ {
+            "name" : "JAVA_MAIN_CLASS",
+            "value" : "org.apache.camel.spring.Main"
+          }, {
+            "name" : "ARTIFACT_DIR",
+            "value" : "ldap-api"
+          } ],
           "from" : {
             "kind" : "ImageStreamTag",
             "name" : "fis-java-openshift:1.0",
@@ -92,17 +121,9 @@
     "apiVersion" : "v1",
     "kind" : "DeploymentConfig",
     "metadata" : {
-      "annotations" : {
-        "fabric8.io/git-commit" : "29b4b0a83417aeacd0f0b8d22b4691b41f11789c",
-        "fabric8.io/git-branch" : "master"
-      },
-      "labels" : {
-        "project" : "ldap-api-kube",
-        "provider" : "fabric8",
-        "version" : "1.0-SNAPSHOT",
-        "group" : "org.swinchester"
-      },
-      "name" : "ldap-api-kube"
+      "annotations" : { },
+      "labels" : { },
+      "name" : "ldap-api-dc"
     },
     "spec" : {
       "replicas" : 1,
@@ -119,10 +140,10 @@
         "metadata" : {
           "annotations" : { },
           "labels" : {
-            "project" : "ldap-api-kube",
-            "provider" : "fabric8",
+            "project" : "ldap-api",
+            "provider" : "swinchester",
             "version" : "1.0-SNAPSHOT",
-            "group" : "org.swinchester"
+            "group" : "ldap"
           }
         },
         "spec" : {
@@ -208,6 +229,21 @@
         "type" : "ImageChange"
       } ]
     }
+  }, {
+    "apiVersion" : "v1",
+    "kind" : "Route",
+    "metadata" : {
+      "annotations" : { },
+      "labels" : { },
+      "name" : "groovy-ldap-api"
+    },
+    "spec" : {
+      "host" : "${ROUTE_HOST_NAME}",
+      "to" : {
+        "kind" : "Service",
+        "name" : "ldap-api-service"
+      }
+    }
   } ],
   "parameters" : [ {
     "name" : "LDAP_BIND_PASSWORD",
@@ -227,6 +263,9 @@
   }, {
     "name" : "REGISTRY",
     "value" : "172.30.233.53:5000"
+  }, {
+    "name" : "ROUTE_HOST_NAME",
+    "value" : "groovy-ldap-api.hub.openshift.10.1.2.2.xip.io"
   }, {
     "name" : "LDAP_URL",
     "value" : "ldap://amq-broker-ldap-service:389"
