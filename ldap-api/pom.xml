@@ -32,7 +32,6 @@
     </properties>
 
 
-
     <dependencies>
         <dependency>
             <groupId>org.swinchester</groupId>
@@ -89,12 +88,6 @@
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
-        <!-- for kubegen -->
-        <dependency>
-            <groupId>io.fabric8</groupId>
-            <artifactId>kubernetes-generator</artifactId>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -259,42 +252,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <!--
-    Default sample commands:
-
-    mvn -Pf8-build         ... build Docker images and create OpenShift deployment configs
-    mvn -Pf8-deploy        ... f8-build + push to Docker registry + applying deployment config to OpenShift
-    mvn -Pf8-local-deploy ... deployment for a single node setup without pushing to a registry
-
-    For individual goal usage please consult the fabric8 documentation
-    -->
-    <profiles>
-        <profile>
-            <id>f8-build</id>
-            <build>
-                <defaultGoal>clean install docker:build fabric8:json</defaultGoal>
-            </build>
-        </profile>
-        <profile>
-            <id>f8-deploy</id>
-            <properties>
-                <fabric8.imagePullPolicySnapshot>Always</fabric8.imagePullPolicySnapshot>
-                <fabric8.recreate>true</fabric8.recreate>
-            </properties>
-            <build>
-                <defaultGoal>clean install docker:build docker:push fabric8:json fabric8:apply</defaultGoal>
-            </build>
-        </profile>
-        <profile>
-            <id>f8-local-deploy</id>
-            <properties>
-                <fabric8.recreate>true</fabric8.recreate>
-            </properties>
-            <build>
-                <defaultGoal>clean install docker:build fabric8:json fabric8:apply</defaultGoal>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
