@@ -52,22 +52,11 @@
         <fabric8.iconRef>camel</fabric8.iconRef>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
-                <version>${fabric8.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-generator</artifactId>
+            <version>${fabric8.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
