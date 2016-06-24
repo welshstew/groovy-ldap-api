@@ -8,7 +8,7 @@
     <artifactId>groovy-ldap-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <!--<module>ldap-api-kube</module>-->
+        <module>ldap-api-kube</module>
         <module>ldap-api</module>
     </modules>
     <packaging>pom</packaging>
@@ -22,24 +22,24 @@
         <fabric8.version>2.2.0.redhat-079</fabric8.version>
     </properties>
 
-    <!--<dependencyManagement>-->
-        <!--<dependencies>-->
-            <!--&lt;!&ndash; fabric8 bom must be before fabric8 bom &ndash;&gt;-->
-            <!--<dependency>-->
-                <!--<groupId>io.fabric8</groupId>-->
-                <!--<artifactId>fabric8-project-bom-with-platform-deps</artifactId>-->
-                <!--<version>${fabric8.version}</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>import</scope>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>org.jboss.fuse.bom</groupId>-->
-                <!--<artifactId>jboss-fuse-parent</artifactId>-->
-                <!--<version>${fuse.version}</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>import</scope>-->
-            <!--</dependency>-->
-        <!--</dependencies>-->
-    <!--</dependencyManagement>-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- fabric8 bom must be before fabric8 bom -->
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
+                <version>${fabric8.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.fuse.bom</groupId>
+                <artifactId>jboss-fuse-parent</artifactId>
+                <version>${fuse.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

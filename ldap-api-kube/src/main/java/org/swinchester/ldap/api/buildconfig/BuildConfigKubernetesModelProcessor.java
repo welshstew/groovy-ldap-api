@@ -10,6 +10,14 @@ import java.util.Map;
 
 public class BuildConfigKubernetesModelProcessor {
 
+//As Taken from /usr/local/s2i/assemble:
+//    # Use main class if given
+//    local hawtapp_arg=""
+//    if [ x"${JAVA_MAIN_CLASS}" != x ]; then
+//            hawtapp_arg="-Dhawt-app.javaMainClass=${JAVA_MAIN_CLASS} io.fabric8:hawt-app-maven-plugin:${HAWTAPP_VERSION}:build"
+//    fi
+
+//    so we need to set HAWTAPP_VERSION - which should be the same as the fabric8 version
 
 
     public void on(TemplateBuilder builder) {
@@ -36,6 +44,10 @@ public class BuildConfigKubernetesModelProcessor {
                             .addNewEnv()
                                 .withName("ARTIFACT_DIR")
                                 .withValue("ldap-api")
+                            .endEnv()
+                            .addNewEnv()
+                                .withName("HAWTAPP_VERSION")
+                                .withValue("2.2.0.redhat-079")
                             .endEnv()
                             .withNewFrom()
                                 .withKind("ImageStreamTag")
