@@ -22,7 +22,7 @@ public class BuildConfigKubernetesModelProcessor {
                     .withTriggers(getTriggers())
                     .withNewSource()
                         .withNewGit()
-                            .withUri("https://github.com/welshstew/groovy-ldap-api")
+                            .withUri("${GIT_URI}")
                         .endGit()
                         .withContextDir("ldap-api")
                         .withType("Git")

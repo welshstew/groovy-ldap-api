@@ -89,7 +89,27 @@ public class DeploymentConfigKubernetesModelProcessor {
         namespace.setName("KUBERNETES_NAMESPACE");
         namespace.setValueFrom(namespaceSource);
 
+        EnvVar ldapUrl = new EnvVar();
+        ldapUrl.setName("LDAP_URL");
+        ldapUrl.setValue("${LDAP_URL}");
+
+        EnvVar ldapBindDn = new EnvVar();
+        ldapBindDn.setName("LDAP_BIND_DN");
+        ldapBindDn.setValue("${LDAP_BIND_DN}");
+
+        EnvVar ldapPassword = new EnvVar();
+        ldapPassword.setName("LDAP_BIND_PASSWORD");
+        ldapPassword.setValue("${LDAP_BIND_PASSWORD}");
+
+        EnvVar ldapSearchBase = new EnvVar();
+        ldapSearchBase.setName("LDAP_SEARCH_BASE");
+        ldapSearchBase.setValue("${LDAP_SEARCH_BASE}");
+
         envVars.add(namespace);
+        envVars.add(ldapUrl);
+        envVars.add(ldapBindDn);
+        envVars.add(ldapPassword);
+        envVars.add(ldapSearchBase);
 
         return envVars;
     }

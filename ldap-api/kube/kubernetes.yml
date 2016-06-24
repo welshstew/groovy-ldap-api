@@ -1,6 +1,15 @@
 ---
 apiVersion: "v1"
-items:
+kind: "Template"
+labels: {}
+metadata:
+  annotations:
+    description: "Groovy http api for simple access to ldap"
+    fabric8.ldap-api-kube/iconUrl: "img/icons/camel.svg"
+    fabric8.ldap-api-kube/summary: "Groovy http api for simple access to ldap"
+  labels: {}
+  name: "ldap-api-kube"
+objects:
 - apiVersion: "v1"
   kind: "ImageStream"
   metadata:
@@ -21,10 +30,47 @@ items:
         name: "ldap-api"
       name: "${IS_TAG}"
 - apiVersion: "v1"
+  kind: "BuildConfig"
+  metadata:
+    annotations: {}
+    labels:
+      app: "ldap-api"
+      project: "ldap-api"
+      version: "1.0.0-SNAPSHOT"
+      group: "ldap"
+    name: "ldap-api"
+  spec:
+    output:
+      to:
+        kind: "ImageStreamTag"
+        name: "ldap-api:${IS_TAG}"
+    source:
+      contextDir: "ldap-api"
+      git:
+        uri: "${GIT_URI}"
+      images: []
+      secrets: []
+      type: "Git"
+    strategy:
+      sourceStrategy:
+        env: []
+        from:
+          kind: "ImageStreamTag"
+          name: "fis-java-openshift:1.0"
+          namespace: "openshift"
+      type: "Source"
+    triggers:
+    - imageChange:
+        from:
+          kind: "ImageStreamTag"
+          name: "fis-java-openshift:1.0"
+          namespace: "openshift"
+      type: "ImageChange"
+- apiVersion: "v1"
   kind: "DeploymentConfig"
   metadata:
     annotations:
-      fabric8.io/git-commit: "254a690a2e9889bec92e5301270d76fffe143d8a"
+      fabric8.io/git-commit: "29b4b0a83417aeacd0f0b8d22b4691b41f11789c"
       fabric8.io/git-branch: "master"
     labels:
       project: "ldap-api-kube"
@@ -58,6 +104,14 @@ items:
             valueFrom:
               fieldRef:
                 fieldPath: "metadata.namespace"
+          - name: "LDAP_URL"
+            value: "${LDAP_URL}"
+          - name: "LDAP_BIND_DN"
+            value: "${LDAP_BIND_DN}"
+          - name: "LDAP_BIND_PASSWORD"
+            value: "${LDAP_BIND_PASSWORD}"
+          - name: "LDAP_SEARCH_BASE"
+            value: "${LDAP_SEARCH_BASE}"
           image: "${IS_PULL_NAMESPACE}/ldap-api:${IS_TAG}"
           imagePullPolicy: "Always"
           livenessProbe:
@@ -101,4 +155,20 @@ items:
           name: "ldap-api:${IS_TAG}"
           namespace: "${IS_PULL_NAMESPACE}"
       type: "ImageChange"
-kind: "List"
+parameters:
+- name: "LDAP_BIND_PASSWORD"
+  value: "secret"
+- name: "IS_TAG"
+  value: "latest"
+- name: "GIT_URI"
+  value: "https://github.com/welshstew/groovy-ldap-api.git"
+- name: "LDAP_SEARCH_BASE"
+  value: "dc=example,dc=com"
+- name: "LDAP_BIND_DN"
+  value: "cn=Manager,dc=example,dc=com"
+- name: "REGISTRY"
+  value: "172.30.233.53:5000"
+- name: "LDAP_URL"
+  value: "ldap://amq-broker-ldap-service:389"
+- name: "IS_PULL_NAMESPACE"
+  value: "symphony-build"

@@ -28,12 +28,22 @@
         <fabric8.parameter.IS_TAG.value>latest</fabric8.parameter.IS_TAG.value>
         <fabric8.parameter.IS_PULL_NAMESPACE.value>symphony-build</fabric8.parameter.IS_PULL_NAMESPACE.value>
         <fabric8.parameter.REGISTRY.value>172.30.233.53:5000</fabric8.parameter.REGISTRY.value>
+        <fabric8.parameter.GIT_URI.value>https://github.com/welshstew/groovy-ldap-api.git</fabric8.parameter.GIT_URI.value>
 
+        <fabric8.parameter.LDAP_URL.value>ldap://amq-broker-ldap-service:389</fabric8.parameter.LDAP_URL.value>
+        <fabric8.parameter.LDAP_BIND_DN.value>cn=Manager,dc=example,dc=com</fabric8.parameter.LDAP_BIND_DN.value>
+        <fabric8.parameter.LDAP_BIND_PASSWORD.value>secret</fabric8.parameter.LDAP_BIND_PASSWORD.value>
+        <fabric8.parameter.LDAP_SEARCH_BASE.value>dc=example,dc=com</fabric8.parameter.LDAP_SEARCH_BASE.value>
+
+        <!-- ROUTE -->
+        <fabric8.parameter.ROUTE_HOST_NAME.value>groovy-ldap-api.hub.openshift.10.1.2.2.xip.io</fabric8.parameter.ROUTE_HOST_NAME.value>
+        
         <!-- Service -->
-        <fabric8.service.name>${project.artifactId}-service</fabric8.service.name>
-        <fabric8.service.port>9102</fabric8.service.port>
-        <fabric8.service.containerPort>9102</fabric8.service.containerPort>
+        <fabric8.service.name>ldap-api-service</fabric8.service.name>
+        <fabric8.service.port>9090</fabric8.service.port>
+        <fabric8.service.containerPort>9090</fabric8.service.containerPort>
         <fabric8.service.type>LoadBalancer</fabric8.service.type>
+
 
         <fabric8.container.name>${project.artifactId}</fabric8.container.name>
         <fabric8.iconRef>camel</fabric8.iconRef>
