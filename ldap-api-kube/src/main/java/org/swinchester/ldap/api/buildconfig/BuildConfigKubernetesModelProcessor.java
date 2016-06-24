@@ -32,7 +32,6 @@ public class BuildConfigKubernetesModelProcessor {
                         .withNewGit()
                             .withUri("${GIT_URI}")
                         .endGit()
-                        .withContextDir("ldap-api")
                         .withType("Git")
                     .endSource()
                     .withNewStrategy()

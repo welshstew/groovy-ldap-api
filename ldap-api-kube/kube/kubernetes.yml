@@ -63,7 +63,6 @@ objects:
         kind: "ImageStreamTag"
         name: "ldap-api:${IS_TAG}"
     source:
-      contextDir: "ldap-api"
       git:
         uri: "${GIT_URI}"
       images: []
@@ -76,6 +75,8 @@ objects:
           value: "org.apache.camel.spring.Main"
         - name: "ARTIFACT_DIR"
           value: "ldap-api"
+        - name: "HAWTAPP_VERSION"
+          value: "2.2.0.redhat-079"
         from:
           kind: "ImageStreamTag"
           name: "fis-java-openshift:1.0"
@@ -92,18 +93,24 @@ objects:
   kind: "DeploymentConfig"
   metadata:
     annotations: {}
-    labels: {}
+    labels:
+      project: "ldap-api"
+      provider: "swinchester"
+      version: "1.0-SNAPSHOT"
+      group: "ldap"
     name: "ldap-api-dc"
   spec:
     replicas: 1
     selector:
-      app: "ldap-api"
-      deploymentconfig: "ldap-api"
+      project: "ldap-api"
+      provider: "swinchester"
+      version: "1.0-SNAPSHOT"
+      group: "ldap"
     strategy:
       annotations: {}
       labels: {}
       type: "Recreate"
-    template:
+    template: 
       metadata:
         annotations: {}
         labels:
@@ -194,7 +201,7 @@ parameters:
 - name: "LDAP_BIND_DN"
   value: "cn=Manager,dc=example,dc=com"
 - name: "REGISTRY"
-  value: "172.30.233.53:5000"
+  value: "172.30.45.89:5000"
 - name: "ROUTE_HOST_NAME"
   value: "groovy-ldap-api.hub.openshift.10.1.2.2.xip.io"
 - name: "LDAP_URL"

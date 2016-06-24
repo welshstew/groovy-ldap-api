@@ -27,7 +27,7 @@
         <!-- Parameters -->
         <fabric8.parameter.IS_TAG.value>latest</fabric8.parameter.IS_TAG.value>
         <fabric8.parameter.IS_PULL_NAMESPACE.value>symphony-build</fabric8.parameter.IS_PULL_NAMESPACE.value>
-        <fabric8.parameter.REGISTRY.value>172.30.233.53:5000</fabric8.parameter.REGISTRY.value>
+        <fabric8.parameter.REGISTRY.value>172.30.45.89:5000</fabric8.parameter.REGISTRY.value>
         <fabric8.parameter.GIT_URI.value>https://github.com/welshstew/groovy-ldap-api.git</fabric8.parameter.GIT_URI.value>
 
         <fabric8.parameter.LDAP_URL.value>ldap://amq-broker-ldap-service:389</fabric8.parameter.LDAP_URL.value>

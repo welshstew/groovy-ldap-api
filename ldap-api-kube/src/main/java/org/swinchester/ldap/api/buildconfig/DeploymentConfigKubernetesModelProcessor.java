@@ -19,6 +19,7 @@ public class DeploymentConfigKubernetesModelProcessor {
         builder.withSpec(builder.getSpec())
                 .withNewMetadata()
                     .withName(ConfigParameters.APP_NAME + "-dc")
+                    .withLabels(getSelectors())
                 .endMetadata()
                 .editSpec()
                     .withReplicas(1)
@@ -133,9 +134,15 @@ public class DeploymentConfigKubernetesModelProcessor {
 
     private Map<String, String> getSelectors() {
         Map<String, String> selectors = new HashMap<>();
-        selectors.put("app", ConfigParameters.APP_NAME);
-        selectors.put("deploymentconfig", ConfigParameters.APP_NAME);
+        selectors.put("project", "ldap-api");
+        selectors.put("provider", "swinchester");
+        selectors.put("version", "1.0-SNAPSHOT");
+        selectors.put("group", "ldap");
 
+//        project: "ldap-api"
+//        provider: "swinchester"
+//        version: "1.0-SNAPSHOT"
+//        group: "ldap"
         return selectors;
     }
 
